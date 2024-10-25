@@ -20,8 +20,8 @@ const getOptiBadges = async () => {
             const response = await axios.get(file.download_url);
             const data = await Promise.all(response.data.map(async badge => {
                 if (!badge.includes(userId)) return badge;
-                const { data } = await axios.get(`https://raw.githubusercontent.com/opti-mod/badges/main/${userId}.json`, { headers: { "Cache-Control": "no-cache" } });
-                return { name: userId, badge: data.url }; // different system. badges are locally assigned an image inside the client. this implies we need to make the JSON files have the images AND badge names set roperly. unless theres another way to do this.
+                const { data } = await axios.get(`https://raw.githubusercontent.com/opti-mod/badges/main/data/${userId}.json`, { headers: { "Cache-Control": "no-cache" } });
+                return { name: data.id, badge: data.badgeUrl }; // different system. badges are locally assigned an image inside the client. this implies we need to make the JSON files have the images AND badge names set roperly. unless theres another way to do this.
             }));
             addUser(userId, CLIENT_MODS.OPTI, data);
         });
